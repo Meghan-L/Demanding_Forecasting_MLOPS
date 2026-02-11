@@ -8,7 +8,7 @@ __version__ = "0.0.0"
 REPO_NAME = "Demanding_Forecasting"
 AUTHOR_USER_NAME = "Meghan-L"
 SRC_REPO = "Demanding_Forecasting"
-AUTHOR_EMAIL = "meghan@example.com"
+AUTHOR_EMAIL = "lakkaraju.meghan@gmail.com"
 
 setuptools.setup(
     name=SRC_REPO,
