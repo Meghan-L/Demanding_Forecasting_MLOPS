@@ -1,0 +1,3 @@
+columns:
+  Month: object
+  Passengers: int64

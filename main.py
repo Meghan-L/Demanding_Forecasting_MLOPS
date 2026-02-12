@@ -3,6 +3,7 @@ from Demanding_Forecasting import logger
 from Demanding_Forecasting.components.data_ingestion import DataIngestion
 from Demanding_Forecasting.components.data_validation import DataValidation
 from Demanding_Forecasting.config.configuration import ConfigurationManager
+from Demanding_Forecasting.components.data_transformation import DataTransformation
 
 STAGE_NAME = "Data Ingestion Stage"
 try:
@@ -25,6 +26,18 @@ try:
     data_validation_config = config.get_data_validation_config()
     data_validation = DataValidation(config=data_validation_config)
     data_validation.validate_all_columns()
+    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
+
+STAGE_NAME = "Data Transformation Stage "
+try:
+    logger.info(f">>>>>>>>>> stage {STAGE_NAME}<<<<<<<<<<<<<<<")
+    config=ConfigurationManager()
+    data_transformation_config=config.get_data_transformation_config()
+    data_transformation=DataTransformation(config=data_transformation_config)
+    data_transformation.train_test_splitting()
     logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)

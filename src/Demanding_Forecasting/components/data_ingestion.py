@@ -3,7 +3,7 @@ import urllib.request as request
 import zipfile
 from Demanding_Forecasting import logger
 from Demanding_Forecasting.utils.common import get_size
-from Demanding_Forecasting.entity.config_entity import DataIngestionConfig
+from Demanding_Forecasting.entity.entity_config import DataIngestionConfig
 from pathlib import Path
 
 class DataIngestion:

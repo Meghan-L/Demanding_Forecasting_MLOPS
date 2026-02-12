@@ -1,7 +1,7 @@
 import os 
-from box.exception import BoxValueError
+from box.exceptions import BoxValueError
 import yaml
-from Demand_Forecasting import logger
+from Demanding_Forecasting import logger
 import json
 import joblib
 from ensure import ensure_annotations
@@ -28,6 +28,6 @@ def create_directories(path_to_directories: list ,verbose=True):
 
 @ensure_annotations
 def get_size(path:Path)->str:
-    size_in_kb=round(os.path.getsize(path).1024)
+    size_in_kb=round(os.path.getsize(path)/1024)
     return f"the size of the file is {size_in_kb} KB"
 
