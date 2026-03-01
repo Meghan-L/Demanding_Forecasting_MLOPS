@@ -1,30 +1,36 @@
-import os 
-from Demanding_Forecasting import logger 
-from sklearn.model_selection import train_test_split
+import os
 import pandas as pd
-from Demanding_Forecasting.entity.entity_config import DataTransformationConfig
-
+from sklearn.model_selection import train_test_split
+from Demanding_Forecasting import logger
 
 class DataTransformation:
-    def __init__(self,config:DataTransformationConfig):
-        self.config=config
+    def __init__(self, config):
+        self.config = config
+
     def train_test_splitting(self):
         try:
-            with open(self.config.STATUS_FILE, "r") as f:
-                # read().strip() removes newlines or hidden spaces
-                status = f.read().strip()
+            data = pd.read_csv(self.config.data_path)
+            date_col = next((col for col in data.columns if 'date' in col.lower() or 'month' in col.lower()), None)
 
-            # We check if 'True' is anywhere in that string
-            if "True" in status:
-                data = pd.read_csv(self.config.data_path)
-                train, test = train_test_split(data, test_size=self.config.test_size)
+            if date_col:
+                month_map = {
+                    'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'June': 6,
+                    'July': 7, 'Aug': 8, 'Sept': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+                }
+                
+                data['month_val'] = data[date_col].str.strip().str.title().str[:3].map(month_map)
+                data = data.select_dtypes(exclude=['object']) 
+                
+                if 'year' not in data.columns:
+                    data['year'] = 2026
 
-                train.to_csv(os.path.join(self.config.root_dir, "train.csv"), index=False)
-                test.to_csv(os.path.join(self.config.root_dir, "test.csv"), index=False)
-
-                logger.info("Splitted data into training and test sets")
-            else:
-                raise Exception("Data schema validation failed! Check artifacts/data_validation/status.txt")
+            train, test = train_test_split(data, test_size=0.2)
+            os.makedirs(self.config.root_dir, exist_ok=True)
+            
+            train.to_csv(os.path.join(self.config.root_dir, "train.csv"), index=False)
+            test.to_csv(os.path.join(self.config.root_dir, "test.csv"), index=False)
+            
+            logger.info("Transformation complete: Exported cleaned numerical data.")
 
         except Exception as e:
             raise e

@@ -1,6 +1,6 @@
 from Demanding_Forecasting.constants import*
 from Demanding_Forecasting.utils.common import read_yaml, create_directories
-from Demanding_Forecasting.entity.entity_config import (DataIngestionConfig,DataTransformationConfig,DataValidationConfig)
+from Demanding_Forecasting.entity.entity_config import (DataIngestionConfig,DataTransformationConfig,DataValidationConfig,ModelTrainerConfig,ModelEvaluationConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -37,7 +37,7 @@ class ConfigurationManager:
     
     def get_data_validation_config(self)->DataValidationConfig:
         config=self.config.data_validation
-        schema=self.schema.columns
+        schema=self.schema.COLUMNS
 
         create_directories([config.root_dir])
         data_validation_config=DataValidationConfig(
@@ -47,3 +47,31 @@ class ConfigurationManager:
             all_schema=schema
         )
         return data_validation_config
+    
+    def get_model_trainer_config(self)->ModelTrainerConfig:
+        config=self.config.model_trainer
+        params=self.params.RandomForest
+
+        create_directories([config.root_dir])
+        model_trainer_config=ModelTrainerConfig(
+            root_dir=config.root_dir,
+            test_data_path=Path(config.test_data_path),
+            train_data_path=Path(config.test_data_path),
+            model_name=config.model_name,
+            n_estimators=params.n_estimators,
+            max_depth=params.max_depth,
+            target_column=params.target_column
+
+        )
+        return model_trainer_config
+    def get_model_evaluation_config(self)->ModelEvaluationConfig:
+        config=self.config.model_evaluation
+        create_directories([config.root_dir])
+        model_evaluation_config=ModelEvaluationConfig(
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path=config.model_path,
+            metric_file_name=config.metric_file_name,
+            target_column=self.params.RandomForest.target_column
+        )
+        return model_evaluation_config

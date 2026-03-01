@@ -1,3 +1,10 @@
-columns:
+COLUMNS:
   Month: object
-  Passengers: int64
+  Cream: int64
+  Detergent: int64
+  Moisturizer: int64
+  Sanitizer: int64
+  Shampoo: int64
+  Soap: int64
+  Total Units: int64
+  Total Profit: int64
