@@ -1,7 +1,4 @@
-# Demanding_Forecasting_MLOPS
-A solid README.md is what transforms a "folder of code" into a Professional Portfolio Project. Since you’re presenting this at JNTUK, we should highlight the MLOps structure and the Random Forest implementation.
-
-Here is a clean, formatted template you can copy and paste into a file named README.md in your project's root directory.
+# Demanding_Forecasting_MLOP
 
  E-Commerce Product Demand Forecasting
 Developer: L Surya Meghan
